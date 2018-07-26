@@ -117,23 +117,28 @@ database.once('value', function (snapshot) {
 
 //每一次資料庫有變動時，獲取最新一筆內容呈現
 database.limitToLast(1).on('value', function (snapshot) {
-	for (var i in snapshot.val()) {
-		show.innerHTML += `<div class="${snapshot.val()[i].id}">
-  	  	  <div class="time"> ${snapshot.val()[i].time} </div>
-    	  <div class="name"></div>
-    	  <div class="content"></div>
-    	</div>`;
+  for (var i in snapshot.val()) {
+    show.innerHTML += `<div class="${snapshot.val()[i].id}">
+          <div class="time"> ${snapshot.val()[i].time} </div>
+        <div class="name"></div>
+        <div class="content"></div>
+      </div>`;
 
     show.lastElementChild.children[1].innerText = snapshot.val()[i].name +':';
-		show.lastElementChild.children[2].innerText = snapshot.val()[i].content;
-	}
-	//如果是自己發出去的文字，就移到右邊
-	let id_ms = document.getElementsByClassName('id'+ms);
+    show.lastElementChild.children[2].innerText = snapshot.val()[i].content;
+  }
+  //如果是自己發出去的文字，就移到右邊
+  let id_ms = document.getElementsByClassName('id'+ms);
   for (var i = id_ms.length - 1; i >= 0; i--) {
     id_ms[i].style.display = 'flex';
     id_ms[i].style.alignItems = 'center';
     id_ms[i].style.justifyContent = 'flex-end';
 }
-	
+  // 透過網頁捲軸的操控，讓每次捲軸都能保持在最下方的位置
+  show.scrollTop = show.scrollHeight;
+
+  
 });
+
+
 
